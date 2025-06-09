@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClientFlow – Smart CRM for Freelancers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database-compat.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; color: #333; }
+    header { background-color: #0f172a; color: white; padding: 2rem; text-align: center; }
+    h1 { font-size: 2.5rem; margin: 0; }
+    p { font-size: 1.1rem; margin: 0.5rem 0; }
+    .cta { margin-top: 1rem; display: inline-block; background-color: #2563eb; color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; }
+    section { padding: 3rem 1rem; max-width: 900px; margin: auto; }
+    .features { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .feature-box { background: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    footer { text-align: center; padding: 2rem; font-size: 0.9rem; background-color: #e2e8f0; }
+    form { margin-top: 2rem; background: #fff; padding: 2rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    input, button { display: block; width: 100%; padding: 0.75rem; margin: 0.5rem 0; border: 1px solid #ccc; border-radius: 6px; }
+    button { background-color: #2563eb; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ClientFlow</h1>
+    <p>Smart CRM & Invoicing for Freelancers</p>
+    <a href="#signup" class="cta">Get Started Free</a>
+  </header>
+
+  <section>
+    <h2>Why ClientFlow?</h2>
+    <div class="features">
+      <div class="feature-box">
+        <h3>📋 Client Management</h3>
+        <p>Add and manage client contacts with ease.</p>
+      </div>
+      <div class="feature-box">
+        <h3>🧾 Invoice Generator</h3>
+        <p>Create & send invoices as beautiful downloadable PDFs.</p>
+      </div>
+      <div class="feature-box">
+        <h3>📅 Follow-up Reminders</h3>
+        <p>Track payments and follow-up tasks without forgetting.</p>
+      </div>
+      <div class="feature-box">
+        <h3>📈 Income Summary</h3>
+        <p>View monthly earnings in a simple dashboard.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="signup">
+    <h2 style="text-align:center">Add New Client</h2>
+    <form id="clientForm">
+      <input type="text" id="name" placeholder="Client Name" required />
+      <input type="email" id="email" placeholder="Client Email" required />
+      <input type="text" id="phone" placeholder="Client Phone" required />
+      <button type="submit">Add Client</button>
+    </form>
+  </section>
+
+  <footer>
+    &copy; 2025 Satronyx Software Pvt. Ltd. | Made in India 🇮🇳
+  </footer>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    document.getElementById('clientForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      db.ref('clients').push({ name, email, phone })
+        .then(() => {
+          alert('Client added successfully!');
+          document.getElementById('clientForm').reset();
+        })
+        .catch(error => alert('Error: ' + error.message));
+    });
+  </script>
+</body>
+</html>
